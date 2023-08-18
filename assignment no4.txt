@@ -1,0 +1,270 @@
+what does JSX ?
+-> jxs is looks similar to html but not html. jsx have only one  parent.
+
+// babel is javascript compiler is conver JSX into React.createElement()
+
+// functional component is normal function and return some piece of JSX
+
+// Title is normal variable and its a react element 
+const title ={
+return(<>
+    <img src="" alt="logo-img" />
+</>)
+}
+
+this way to use {title}
+
+// functional component
+const HeaderComponent = () =>{
+return(
+    <>
+   <div className="nav-items">
+   <Title />
+    
+        <ul>
+            <li>Home</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>Cart</li>
+        </ul>
+    </div>
+    </>
+    )
+
+this way to use < HeaderComponent /> self closing bracket
+
+// how can i write comment inside jsx
+->{ // single line
+    /**
+	multiline comment
+    */
+  }
+
+// let just build app let us do planning
+
+1. how will app look.
+2. app should have header
+3. header left side logo
+4. header right side some links
+5. body 
+6. footer
+
+const AppLayout = () => {
+  return {
+    /**
+     *      header
+                -logo(left side)
+		-search bar(middle)
+                -nav item(right side)
+                -cart
+            body
+                -Search Bar
+                -RestrauntList
+                -Restaunt Card
+                    -imgage
+                    -name
+                    -cusine
+            footer
+                -reference links
+                -copyright
+        */
+  };
+};
+
+// react.fragment ->reacr.fragment is a component is exported by react liabrary.it remove extra dive from root
+<React.Fragment></React.Fragment> it is like empty tag.
+
+//   inline style in css -> style={{background:"red", color:"white"}}
+
+// ----------------------------body-------------------------------------------
+// some hard coded data its object
+const burgurking = {
+  name: "Burger King",
+  image: "url",
+  cusine: ["Burgur", "American"],
+  rating: "4.3",
+};
+// some hardcoded data how can make dynamic
+const ResturantCard=()=>{
+return(
+    <>
+        <div className="card">
+            <img src={burgurking.image} alt="card img" />
+            <h2>{burgurking.name}</h2> 
+            <h3>{burgurking.cusine}</h3>
+            <h4>{burgurking.rating} stars</h4> 
+        </div>
+    </>
+    );
+}
+
+const Body = () =>{
+return(
+    <ResturantCard />
+     <ResturantCard />
+	 <ResturantCard />
+	 <ResturantCard />
+	 <ResturantCard />
+	// this is not cool idea how can add every new restaurent is coming
+	// i want to all the cards is dynamic
+	// not writing <ResturantCard /> like this let us try to make card more dynamic.
+    );
+}
+
+//but in the real world not like this there so many restaurent. so can render so many restaurent i want to all the cards is dynamic.
+//we make UI are dyanamic this type of UI known as config driven UI.
+
+//  what is optional chaning?(javascript)
+  
+// this way to render array of object data ->  <img src={restList[0].image} alt="card img" />
+
+//props -> what ever pass over here as an attribute is known as props in functional component<ResturantCard restrauntList[0] />
+props -> properties (parameters and arguments) using pass the data inside the component. parent component pass argenment  and recieve data in child component. 
+
+example of props->
+
+const restList =[ {
+  image:
+    "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/e33e1d3ba7d6b2bb0d45e1001b731fcf",
+  name: "Burger King",
+  cusine: ["Burgur", "American"],
+  rating: "4.3",
+},
+{
+  image:"",
+  name: "KFC",
+  cusine: ["Hot", "Pizz"],
+  rating: "5",
+}];
+
+// some hardcoded data how can make dynamic
+const ResturantCard = (props) => {
+  console.log(props)
+  return (
+    <>
+     <div className="card">
+            <img src={props.Resturant.image} alt="card img" />
+            <h2>{props.Resturant.name}</h2> 
+            <h3>{props.Resturant.cusine.join(" , ")}</h3>
+            <h4>{props.Resturant.rating} stars</h4> 
+        </div>
+    </>
+  );
+};
+
+const Body = () => {
+  return (
+    <>
+      <div className="restaurent">
+        { 
+        //RestrauntCad(restList[0])  it is props and props recieve in chid component
+        }
+        <ResturantCard Resturant={restList[0]}/>
+        <ResturantCard Resturant={restList[1]}/>
+        {
+          // i want to all the cards is dynamic
+        }
+      </div>
+    </>
+  );
+};
+
+// you dont want use prop then destrucring the props replace this way { Restraunt } 
+lets see example ->
+const ResturantCard = ({Resturant}) => {
+  console.log(Resturant)
+  return (
+    <>
+     <div className="card">
+            <img src={Resturant.image} alt="card img" />
+            <h2>{Resturant.name}</h2> 
+            <h3>{Resturant.cusine.join(" , ")}</h3>
+            <h4>{Resturant.rating} stars</h4> 
+        </div>
+    </>
+  );
+};
+
+// you can also destucture Restraunt this way
+lets see example->
+const ResturantCard = ({Resturant}) => {
+ const {image,name,cusine,rating}=Resturant;
+  return (
+    <>
+     <div className="card">
+            <img src={image} alt="card img" />
+            <h2>{name}</h2> 
+            <h3>{cusine.join(" , ")}</h3>
+            <h4>{rating} stars</h4> 
+        </div>
+    </>
+  );
+};
+
+// you can also this way to pass the props using the spred operator
+lets see example ->
+
+const ResturantCard = ({name,image,cusine,rating}) => {
+  return (
+    <>
+     <div className="card">
+            <img src={image} alt="card img" />
+            <h2>{name}</h2> 
+            <h3>{cusine}</h3>
+            <h4>{rating} stars</h4> 
+        </div>
+    </>
+  );
+};
+
+const Body = () => {
+  return (
+    <>
+      <div className="restaurent">
+        { 
+        //RestrauntCad(restList[0])  it is props and props recieve in chid component
+        }
+        <ResturantCard {...restList[0]}/> 
+        <ResturantCard {...restList[1]}/>
+        {
+          // i want to all the cards is dynamic
+        }
+      </div>
+    </>
+  );
+
+// use map function in functional component
+let see example ->
+const Body = () => {
+  return (
+    <>
+      <div className="restaurent">
+        { 
+        //RestrauntCad(restList[0])  it is props and props recieve in chid component
+       //<ResturantCard {...restList[0]}/> let suppose 50 restraunt cant write this way use the loop.
+        }
+        {
+          restList.map((callback)=>{
+            return <ResturantCard { ...callback}/>
+          })
+          // callback is denote restist of every object and return some peice of jsx
+        }
+        {/* <ResturantCard {...restList[0]}/>
+        <ResturantCard {...restList[1]}/> */}
+      </div>
+    </>
+  );
+};
+
+//VDOM -> Virtual DOM we keep a repersentaion of DOM with us is called Virtual DOM
+// why do you need in virtualDom in React? 
+->Reconsilation in React. reconcilation algorithm that react uses to diff one tree from other.to find out the difference beetween trees and find out what need changes
+in UI and what should not change in UI and just render the small piece of UI
+
+// error -> each child in a list should have a unique "key" props.
+-> let suppose one component have many children react gets confuse what rerender and react rerender all children if not give you keys and if gives key react just 
+rerender need changes in child and keep track keys.
+
+this way to gives keys ->key={callback.id} and key={index}
+
+// why dont we use index as a key
